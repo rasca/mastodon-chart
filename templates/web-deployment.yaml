@@ -19,34 +19,77 @@ spec:
     metadata:
       labels:
         app: {{ template "name" . }}
-        component: "{{ .Values.web.name }}"
+        component: "web"
         release: {{ .Release.Name }}
     spec:
       containers:
-      - name: {{ template "name" . }}-{{ .Values.web.name }}
+      - name: sidekiq
+        image: "{{ .Values.sidekiq.image }}:{{ .Values.sidekiq.imageTag }}"
+        imagePullPolicy: {{ .Values.sidekiq.imagePullPolicy | quote }}
+        command:
+          - bundle
+          - exec
+          - sidekiq
+          - -c
+          - "{{ .Values.sidekiq.parallelism }}"
+          - -q
+          - default
+          - -q
+          - mailers
+          - -q
+          - pull
+          - -q
+          - push
+          - -q
+          - scheduler
+        envFrom:
+          - configMapRef:
+              name: {{ include "fullname" . }}-env
+          - secretRef:
+              name: {{ include "fullname" . }}-web
+        resources:
+{{ toYaml .Values.sidekiq.resources | indent 10 }}
+        volumeMounts:
+        - name: assets
+          mountPath: /opt/mastodon/public/assets
+        - name: system
+          mountPath: /opt/mastodon/public/system
+      - name: web
         image: "{{ .Values.web.image }}:{{ .Values.web.imageTag }}"
         imagePullPolicy: {{ .Values.web.imagePullPolicy | quote }}
         command:
           - bundle
           - exec
-          - rails
-          - s
-          - -p
-          - {{ .Values.web.containerPort | quote }}
-          - -b
-          - 0.0.0.0
+          - puma
+          - -C
+          - config/puma.rb
+        envFrom:
+          - configMapRef:
+              name: {{ include "fullname" . }}-env
+          - secretRef:
+              name: {{ include "fullname" . }}-web
         env:
-{{ include "productonEnvironment" . | indent 8 }}
+        - name: "PORT"
+          value: {{ .Values.web.containerPort | quote }}
         ports:
-        - name: web
+        - name: http
           containerPort: {{ .Values.web.containerPort }}
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
         resources:
 {{ toYaml .Values.web.resources | indent 10 }}
         volumeMounts:
         - name: assets
-          mountPath: /mastodon/public/assets
+          mountPath: /opt/mastodon/public/assets
         - name: system
-          mountPath: /mastodon/public/system
+          mountPath: /opt/mastodon/public/system
       volumes:
       - name: system
         persistentVolumeClaim:

@@ -1,7 +1,6 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-metadata:
   name: {{ template "name" . }}-pre-upgrade
   labels:
     app: {{ template "name" . }}
@@ -22,6 +21,18 @@ spec:
         release: {{ .Release.Name }}
     spec:
       restartPolicy: Never
+      {{- if or (eq "ReadWriteOnce" .Values.web.persistentVolume.assets.accessMode) (eq "ReadWriteOnce" .Values.web.persistentVolume.system.accessMode) }}
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: component
+                  operator: In
+                  values:
+                    - web
+            topologyKey: kubernetes.io/hostname
+      {{- end }}
       containers:
       - name: {{ template "name" . }}-pre-upgrade-job
         image: "{{ .Values.web.image }}:{{ .Values.web.imageTag }}"
@@ -30,10 +41,14 @@ spec:
         args:
           - "-c"
           - "bundle exec rails db:migrate && bundle exec rails assets:precompile"
+        envFrom:
+          - configMapRef:
+              name: {{ include "fullname" . }}-env
+          - secretRef:
+              name: {{ include "fullname" . }}-web
         env:
         - name: SKIP_POST_DEPLOYMENT_MIGRATIONS
           value: "true"
-{{ include "productonEnvironment" . | indent 8 }}
         volumeMounts:
         - name: assets
           mountPath: /mastodon/public/assets

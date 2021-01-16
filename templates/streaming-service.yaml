@@ -12,9 +12,9 @@ spec:
   ports:
     - name: http
       port: {{ .Values.streaming.servicePort }}
-      targetPort: streaming
+      targetPort: http
   selector:
     app: {{ template "name" . }}
-    component: "{{ .Values.streaming.name }}"
+    component: "streaming"
     release: {{ .Release.Name }}
   type: "ClusterIP"

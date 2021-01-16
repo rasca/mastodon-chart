@@ -1,2 +1,2 @@
-secrets.yaml
-values.yaml
+values.*.yaml
+charts/

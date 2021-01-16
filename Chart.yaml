@@ -10,3 +10,16 @@ maintainers:
 version: 3.3.0
 appVersion: 3.3.0
 engine: gotpl
+dependencies:
+- name: postgres
+  version: "0.2.5"
+  repository: https://groundhog2k.github.io/helm-charts/
+- name: redis
+  version: "0.2.6"
+  repository: https://groundhog2k.github.io/helm-charts/
+- name: elasticsearch
+  version: "0.1.0"
+  repository: https://groundhog2k.github.io/helm-charts/
+- name: minio
+  version: "8.0.9"
+  repository: https://helm.min.io/

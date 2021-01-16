@@ -15,6 +15,18 @@ spec:
     spec:
       template:
         spec:
+          {{- if or (eq "ReadWriteOnce" .Values.web.persistentVolume.assets.accessMode) (eq "ReadWriteOnce" .Values.web.persistentVolume.system.accessMode) }}
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: component
+                      operator: In
+                      values:
+                        - web
+                topologyKey: kubernetes.io/hostname
+          {{- end }}
           restartPolicy: OnFailure
           containers:
           - name: {{ template "name" . }}-maintenance
@@ -24,8 +36,11 @@ spec:
             args:
             - "-c"
             - "tootctl media remove --days={{ .Values.web.keepMediaDays }} && tootctl statuses remove"
-            env:
-{{ include "productonEnvironment" . | indent 12 }}
+            envFrom:
+            - configMapRef:
+                name: {{ include "fullname" . }}-env
+            - secretRef:
+                name: {{ include "fullname" . }}-web
             volumeMounts:
             - name: assets
               mountPath: /mastodon/public/assets

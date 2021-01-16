@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fullname" . }}-env
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.web.name }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+data:
+  DB_HOST: {{ template "name" . }}-postgres
+  DB_NAME: "mastodon"
+  DB_PORT: "5432"
+  DB_USER: "mastodon"
+  DEFAULT_LOCALE: {{ .Values.env.defaultLanguage | quote }}
+  LOCAL_DOMAIN: {{ .Values.web.ingress.host | quote }}
+  # https://devcenter.heroku.com/articles/tuning-glibc-memory-behavior
+  MALLOC_ARENA_MAX: "2"
+  NODE_ENV: "production"
+  STREAMING_CLUSTER_NUM: {{ .Values.streaming.clusterSize | quote }}
+
+  {{- if .Values.redis.enabled }}
+  RAILS_ENV: "production"
+  REDIS_HOST: "{{ template "name" . }}-redis"
+  REDIS_PORT: "6379"
+  {{- end }}
+
+  {{- if .Values.elasticsearch.enabled }}
+  ES_ENABLED: "true"
+  ES_HOST: {{ template "name" . }}-elasticsearch-internal
+  ES_PORT: "9200"
+  {{- end }}
+
+  {{- if .Values.env.smtp.domain }}
+  SMTP_DOMAIN: {{ .Values.env.smtp.domain | quote }}
+  SMTP_FROM_ADDRESS: {{ .Values.env.smtp.address | quote }}
+  SMTP_LOGIN: {{ .Values.env.smtp.login | quote }}
+  {{ if .Values.env.smtp.opensslVerifyMode }}
+  SMTP_OPENSSL_VERIFY_MODE: {{ .Values.env.smtp.opensslVerifyMode | quote }}
+  {{ end }}
+  SMTP_PORT: {{ .Values.env.smtp.port | quote }}
+  SMTP_REPLY_TO: {{ .Values.env.smtp.reply_to | default .Values.env.smtp.address | quote }}
+  SMTP_SERVER: {{ .Values.env.smtp.server | quote }}
+  {{- end }}
+
+  {{- if or .Values.minio.enabled .Values.env.s3.enabled }}
+  S3_ENABLED: "true"
+  S3_BUCKET: {{ .Values.env.s3.bucket | default .Values.minio.defaultBucket.name | quote }}
+  AWS_ACCESS_KEY_ID: {{ .Values.env.s3.awsAccessKeyId | default .Values.minio.accessKey | quote }}
+  {{- if .Values.env.s3.region }}
+  S3_REGION: {{ .Values.env.s3.region | quote }}
+  {{- end }}
+  S3_PROTOCOL: {{ .Values.env.s3.protocol | quote }}
+  S3_HOSTNAME: {{ .Values.env.s3.hostname | quote }}
+  S3_ENDPOINT: {{ .Values.env.s3.endpoint | default "http://mastodon-minio:9000" }}
+  {{- if .Values.env.s3.aliasHostname }}
+  S3_ALIAS_HOST: {{ .Values.env.s3.aliasHostname | quote }}
+  {{- end }}
+  {{- end }}
+
+  {{- if .Values.env.assets }}
+  PAPERCLIP_ROOT_PATH: {{ .Values.env.assets.paperclipRootPath | quote }}
+  PAPERCLIP_ROOT_URL: {{ .Values.env.assets.paperclipRootUrl | quote }}
+  CDN_HOST: {{ .Values.env.assets.cdnHost | quote }}
+  {{- end }}

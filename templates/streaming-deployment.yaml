@@ -19,21 +19,33 @@ spec:
     metadata:
       labels:
         app: {{ template "name" . }}
-        component: "{{ .Values.streaming.name }}"
+        component: "streaming"
         release: {{ .Release.Name }}
     spec:
       containers:
-      - name: {{ template "name" . }}-{{ .Values.streaming.name }}
+      - name: streaming
         image: "{{ .Values.streaming.image }}:{{ .Values.streaming.imageTag }}"
         imagePullPolicy: {{ .Values.streaming.imagePullPolicy | quote }}
         command:
           - npm
           - run
           - start
-        env:
-{{ include "productonEnvironment" . | indent 8 }}
+        envFrom:
+          - configMapRef:
+              name: {{ include "fullname" . }}-env
+          - secretRef:
+              name: {{ include "fullname" . }}-web
         ports:
-        - name: streaming
+        - name: http
           containerPort: {{ .Values.streaming.containerPort }}
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /api/v1/streaming/health
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /api/v1/streaming/health
+            port: http
         resources:
 {{ toYaml .Values.streaming.resources | indent 10 }}
