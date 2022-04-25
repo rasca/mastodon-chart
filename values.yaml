@@ -1,22 +1,23 @@
 env:
-  singleUserMode: "true"
+  singleUserMode: false
   registration: {}
   # emailDomainBlacklist: "example1.com|example2.com"
   # emailDomainWhitelist: "example1.com|example2.com"
   defaultLanguage: "ja"
   smtp:
-    server: ""
+    server: smtp.mailgun.org
     port: "587"
     login: ""
-    address: ""
+    address: notifications@example.com
     reply_to: ""
     opensslVerifyMode: "peer"
     aliasHostname: ""
     domain: ""
-  assets: {}
-  # paperclipRootPath: "/var/lib/mastodon/public-system"
-  # paperclipRootUrl: "system"
-  # cdnHost: "assets.example.com"
+  assets:
+    paperclipRootPath: ""
+    paperclipRootUrl: ""
+    cdnHost: ""
+
   s3:
     enabled: true
     # These come from minio by default, set here to override
@@ -25,6 +26,7 @@ env:
     awsSecretAccessKey: ""
     endpoint: ""
     region: ""
+    aliasHostname: ""
     protocol: "http"
     hostname: "mastodon-minio:9000"
 

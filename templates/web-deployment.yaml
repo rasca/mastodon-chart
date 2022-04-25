@@ -5,7 +5,7 @@ metadata:
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    component: "{{ .Values.web.name }}"
+    component: "web"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:

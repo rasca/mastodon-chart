@@ -5,10 +5,11 @@ metadata:
   labels:
     app: {{ template "fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Values.web.name }}"
+    component: "web"
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 data:
+  SINGLE_USER_MODE: {{ .Values.env.singleUserMode }}
   DB_HOST: {{ template "name" . }}-postgres
   DB_NAME: "mastodon"
   DB_PORT: "5432"
@@ -19,9 +20,9 @@ data:
   MALLOC_ARENA_MAX: "2"
   NODE_ENV: "production"
   STREAMING_CLUSTER_NUM: {{ .Values.streaming.clusterSize | quote }}
+  RAILS_ENV: "production"
 
   {{- if .Values.redis.enabled }}
-  RAILS_ENV: "production"
   REDIS_HOST: "{{ template "name" . }}-redis"
   REDIS_PORT: "6379"
   {{- end }}
@@ -40,7 +41,9 @@ data:
   SMTP_OPENSSL_VERIFY_MODE: {{ .Values.env.smtp.opensslVerifyMode | quote }}
   {{ end }}
   SMTP_PORT: {{ .Values.env.smtp.port | quote }}
+  {{ if .Values.env.smtp.reply_to }}
   SMTP_REPLY_TO: {{ .Values.env.smtp.reply_to | default .Values.env.smtp.address | quote }}
+  {{ end }}
   SMTP_SERVER: {{ .Values.env.smtp.server | quote }}
   {{- end }}
 
