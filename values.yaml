@@ -28,15 +28,6 @@ env:
     protocol: "http"
     hostname: "mastodon-minio:9000"
 
-httpd:
-  name: assets
-  servicePort: 80
-  containerPort: 80
-  resources:
-    requests:
-      memory: 32Mi
-      cpu: 50m
-
 web:
   image: registry.digitalocean.com/rgst/mastodon
   imageTag: latest
@@ -61,6 +52,7 @@ web:
     requests:
       memory: 256Mi
       cpu: 100m
+
 streaming:
   image: registry.digitalocean.com/rgst/mastodon
   imageTag: latest
@@ -72,6 +64,7 @@ streaming:
     requests:
       memory: 256Mi
       cpu: 100m
+
 sidekiq:
   image: registry.digitalocean.com/rgst/mastodon
   imageTag: latest
@@ -89,10 +82,11 @@ sidekiq:
     requests:
       memory: 256Mi
       cpu: 100m
+
 redis:
   enabled: true
   image:
-    tag: 6-alpine
+    tag: 6.2-alpine
   servicePort: 6379
   containerPort: 6379
   storage:
@@ -105,7 +99,7 @@ redis:
 postgres:
   enabled: true
   image:
-    tag: "13.1"
+    tag: "14.2"
   imagePullPolicy: IfNotPresent
   userDatabase:
     name: mastodon
@@ -124,22 +118,21 @@ elasticsearch:
 
 minio:
   enabled: true
+  mode: standalone
+  replicas: 1
 
-  # CHANGE ME!!
-  accessKey: BkU9Gc8wIygQC8kghBhN
-  secretKey: mOGpRFdMyyiBDTXdhBZIDGU9uWHqVtauYvBDgPgO
+  # Change these!!!
+  rootUser: BkU9Gc8wIygQC8kghBhN
+  rootPassword: mOGpRFdMyyiBDTXdhBZIDGU9uWHqVtauYvBDgPgO
 
-  enabled: true
-  ingress:
-    enabled: true
-  defaultBucket:
-    enabled: true
-    name: mastodon
+  buckets:
+    - name: mastodon
+      policy: public
 
 ### Secrets, change these.
 postgresPassword: ""
 redisPassword: ""
-paperclipSecret: "" 
+paperclipSecret: ""
 secretKeyBase: ""
 otpSecret: ""
 smtpPassword: ""

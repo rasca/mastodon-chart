@@ -7,8 +7,8 @@ This Helm chart is designed/tested with:
 
 | Package | Version |
 | ------- | ------- |
-| Mastodon | `tootsuite/mastodon:v3.3.0` |
-| Kubernetes | v1.17 |
+| Mastodon | `v3.5.1` (glitch-soc) |
+| Kubernetes | v1.23 |
 
 ## How to Install?
 Copy and edit `secrets.yaml.sample` and `values.yaml.sample` to provide your
@@ -20,7 +20,4 @@ helm upgrade --install -f secrets.yaml mastodon .
 ```
 
 ### Maintainer & License
-Maintained by Tim Walls <tim.walls@snowgoons.com> - for more information see
-here: https://snowgoons.ro/posts/2020-08-29-mastodon-on-kubernetes/
-
-Based on the original chart developed by Ladicle - https://github.com/Ladicle/mastodon-chart
+Based on modifications by Tim Walls - https://github.com/timwalls/mastodon-chart, which were based on the original chart developed by Ladicle - https://github.com/Ladicle/mastodon-chart.
