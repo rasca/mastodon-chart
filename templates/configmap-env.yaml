@@ -49,7 +49,7 @@ data:
 
   {{- if or .Values.minio.enabled .Values.env.s3.enabled }}
   S3_ENABLED: "true"
-  S3_BUCKET: {{ .Values.env.s3.bucket | default .Values.minio.defaultBucket.name | quote }}
+  S3_BUCKET: {{ .Values.env.s3.bucket | default (index .Values.minio.buckets 0 | default (dict "name" "")).name | quote }}
   AWS_ACCESS_KEY_ID: {{ .Values.env.s3.awsAccessKeyId | default .Values.minio.accessKey | quote }}
   {{- if .Values.env.s3.region }}
   S3_REGION: {{ .Values.env.s3.region | quote }}
