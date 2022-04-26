@@ -67,3 +67,6 @@ data:
   PAPERCLIP_ROOT_URL: {{ .Values.env.assets.paperclipRootUrl | quote }}
   CDN_HOST: {{ .Values.env.assets.cdnHost | quote }}
   {{- end }}
+
+  VAPID_PRIVATE_KEY: {{ .Values.vapidPrivateKey | quote }}
+  VAPID_PUBLIC_KEY: {{ .Values.vapidPublicKey | quote }}
