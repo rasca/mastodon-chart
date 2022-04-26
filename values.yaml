@@ -114,6 +114,7 @@ postgres:
       cpu: 100m
 
 elasticsearch:
+  enabled: true
   replicas: 1
   minimumMasterNodes: 1
 
