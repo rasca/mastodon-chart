@@ -32,7 +32,7 @@ env:
 
 web:
   image: ghcr.io/rgst-io/mastodon
-  imageTag: sha-d68fdcc
+  imageTag: 3.5.1-rgst.2
   imagePullPolicy: IfNotPresent
   servicePort: 80
   containerPort: 3000
@@ -57,7 +57,7 @@ web:
 
 streaming:
   image: ghcr.io/rgst-io/mastodon
-  imageTag: sha-d68fdcc
+  imageTag: 3.5.1-rgst.2
   imagePullPolicy: IfNotPresent
   servicePort: 4000
   containerPort: 4000
@@ -69,7 +69,7 @@ streaming:
 
 sidekiq:
   image: ghcr.io/rgst-io/mastodon
-  imageTag: sha-d68fdcc
+  imageTag: 3.5.1-rgst.2
   imagePullPolicy: IfNotPresent
   parallelism: 2
   defaultQparallelism: 2
@@ -131,6 +131,7 @@ minio:
       policy: public
 
 ### Secrets, change these.
+# https://docs.joinmastodon.org/admin/config/#secrets
 paperclipSecret: ""
 secretKeyBase: ""
 otpSecret: ""
