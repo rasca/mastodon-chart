@@ -3,7 +3,7 @@ env:
   registration: {}
   # emailDomainBlacklist: "example1.com|example2.com"
   # emailDomainWhitelist: "example1.com|example2.com"
-  defaultLanguage: "ja"
+  defaultLanguage: "en"
   smtp:
     server: smtp.mailgun.org
     port: "587"
