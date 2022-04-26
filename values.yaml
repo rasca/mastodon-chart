@@ -114,9 +114,8 @@ postgres:
       cpu: 100m
 
 elasticsearch:
-  enabled: true
-  storage:
-    requestedSize: 10Gi
+  replicas: 1
+  minimumMasterNodes: 1
 
 minio:
   enabled: true
