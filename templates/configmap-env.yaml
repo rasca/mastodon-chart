@@ -29,7 +29,7 @@ data:
 
   {{- if .Values.elasticsearch.enabled }}
   ES_ENABLED: "true"
-  ES_HOST: {{ template "name" . }}-elasticsearch-internal
+  ES_HOST: elasticsearch-master
   ES_PORT: "9200"
   {{- end }}
 
