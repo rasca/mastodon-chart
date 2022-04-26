@@ -31,8 +31,8 @@ env:
     hostname: "mastodon-minio:9000"
 
 web:
-  image: ghcr.io/rgst-io/mastodon
-  imageTag: 3.5.1-rgst.2
+  image: ghcr.io/glitch-soc/mastodon
+  imageTag: latest
   imagePullPolicy: IfNotPresent
   servicePort: 80
   containerPort: 3000
@@ -56,8 +56,8 @@ web:
       cpu: 100m
 
 streaming:
-  image: ghcr.io/rgst-io/mastodon
-  imageTag: 3.5.1-rgst.2
+  image: ghcr.io/glitch-soc/mastodon
+  imageTag: latest
   imagePullPolicy: IfNotPresent
   servicePort: 4000
   containerPort: 4000
@@ -68,8 +68,8 @@ streaming:
       cpu: 100m
 
 sidekiq:
-  image: ghcr.io/rgst-io/mastodon
-  imageTag: 3.5.1-rgst.2
+  image: ghcr.io/glitch-soc/mastodon
+  imageTag: latest
   imagePullPolicy: IfNotPresent
   parallelism: 2
   defaultQparallelism: 2
