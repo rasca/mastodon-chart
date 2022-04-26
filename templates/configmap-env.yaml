@@ -9,7 +9,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 data:
-  SINGLE_USER_MODE: {{ .Values.env.singleUserMode }}
+  SINGLE_USER_MODE: {{ .Values.env.singleUserMode | quote }}
   DB_HOST: {{ template "name" . }}-postgres
   DB_NAME: "mastodon"
   DB_PORT: "5432"
