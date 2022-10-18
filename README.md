@@ -1,23 +1,27 @@
-# Mastodon chart
+<img src="https://img.shields.io/badge/status-early%20alpha-red" alt="early alpha status" />
 
-A Helm chart for [Mastodon](https://github.com/tootsuite/mastodon).
+# Mastodon Chart
+
+A Helm chart for [Mastodon](https://github.com/mastodon/mastodon).
 Mastodon is a free, open-source social network server.
 
 This Helm chart is designed/tested with:
 
 | Package | Version |
 | ------- | ------- |
-| Mastodon | `v3.5.1` (glitch-soc) |
-| Kubernetes | v1.23 |
+| Mastodon | [`v3.5.3`](https://github.com/mastodon/mastodon/releases) (glitch-soc) |
+| Kubernetes | v1.24.6+k3s1 ([k3s](https://k3s.io/)) |
 
-## How to Install?
-Copy and edit `secrets.yaml.sample` and `values.yaml.sample` to provide your
-own `secrets.yaml` and `values.yaml` files, and then deploy the Helm chart
-with: 
+## Installing
+
+Copy and edit `secrets.yaml.sample` and `values.yaml.sample` to provide your own `secrets.yaml` and `values.yaml` files, and then deploy the Helm chart with: 
 
 ```
 helm upgrade --install -f secrets.yaml mastodon .
 ```
 
-### Maintainer & License
-Based on modifications by Tim Walls - https://github.com/timwalls/mastodon-chart, which were based on the original chart developed by Ladicle - https://github.com/Ladicle/mastodon-chart.
+## Maintainer & License
+
+Based on modifications by [Jared Allard](https://github.com/jaredallard/mastodon-chart), which were based on modifications by [Tim Walls](https://github.com/timwalls/mastodon-chart), which in turn were based on the original chart developed by [Ladicle](https://github.com/Ladicle/mastodon-chart).
+
+Standing on the shoulders of giants, indeed.

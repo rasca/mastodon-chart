@@ -19,7 +19,7 @@ env:
     cdnHost: ""
 
   s3:
-    enabled: true
+    enabled: false
     # Enables support for gcs
     gcs: false
     # These come from minio by default, set here to override
