@@ -4,21 +4,24 @@ name: mastodon
 sources:
   - https://github.com/jaredallard/mastodon-chart
   - https://github.com/glitch-soc/mastodon
+  - https://github.com/magsol/mastodon-chart
 maintainers:
   - email: jared@rgst.io
     name: jaredallard
+  - email: magsol@gmail.com
+    name: magsol
 version: 0.1.0
 appVersion: 3.5.1
 dependencies:
   - name: postgres
-    version: "0.3.8"
+    version: "0.4.0"
     repository: https://groundhog2k.github.io/helm-charts/
   - name: redis
-    version: "0.4.11"
+    version: "0.5.8"
     repository: https://groundhog2k.github.io/helm-charts/
   - name: elasticsearch
     version: "7.17.3"
     repository: https://helm.elastic.co
   - name: minio
-    version: "3.6.6"
+    version: "5.0.0"
     repository: https://charts.min.io/
