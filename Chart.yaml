@@ -13,15 +13,19 @@ maintainers:
 version: 0.1.0
 appVersion: 3.5.1
 dependencies:
-  - name: postgres
+  - condition: postgres.enabled
+    name: postgres
     version: "0.4.0"
     repository: https://groundhog2k.github.io/helm-charts/
-  - name: redis
+  - condition: redis.enabled
+    name: redis
     version: "0.5.8"
     repository: https://groundhog2k.github.io/helm-charts/
-  - name: elasticsearch
+  - condition: elasticsearch.enabled
+    name: elasticsearch
     version: "7.17.3"
     repository: https://helm.elastic.co
-  - name: minio
+  - condition: minio.enabled
+    name: minio
     version: "5.0.0"
     repository: https://charts.min.io/

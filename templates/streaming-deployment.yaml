@@ -35,6 +35,26 @@ spec:
               name: {{ include "fullname" . }}-env
           - secretRef:
               name: {{ include "fullname" . }}-web
+        env:
+          {{- if .Values.externalPostgresql.existingSecret }}
+          - name: "DB_PASS"
+            valueFrom:
+              secretKeyRef:
+                key: {{ .Values.externalPostgresql.existingSecretPasswordKey | quote }}
+                name: {{ .Values.externalPostgresql.existingSecret | quote }}
+          {{- end }}
+          {{- if not .Values.redis.enabled }}
+          {{- if .Values.externalRedis.existingSecret }}
+          - name: "REDIS_URL"
+            valueFrom:
+              secretKeyRef:
+                key: {{ .Values.externalRedis.existingSecretUrlKey | quote }}
+                name: {{ .Values.externalRedis.existingSecret | quote }}
+          {{- else }}
+          - name: "REDIS_URL"
+            value: {{ .Values.externalRedis.url | quote }}
+          {{- end }}
+          {{- end }}
         ports:
         - name: http
           containerPort: {{ .Values.streaming.containerPort }}

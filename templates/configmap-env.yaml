@@ -10,10 +10,17 @@ metadata:
     release: "{{ .Release.Name }}"
 data:
   SINGLE_USER_MODE: {{ .Values.env.singleUserMode | quote }}
+  {{- if .Values.postgres.enabled }}
   DB_HOST: {{ template "name" . }}-postgres
   DB_NAME: "mastodon"
   DB_PORT: "5432"
   DB_USER: "mastodon"
+  {{- else }}
+  DB_HOST: {{ .Values.externalPostgresql.host | quote }}
+  DB_NAME: {{ .Values.externalPostgresql.database | quote }}
+  DB_PORT: {{ .Values.externalPostgresql.port | quote }}
+  DB_USER: {{ .Values.externalPostgresql.user | quote }}
+  {{- end }}
   DEFAULT_LOCALE: {{ .Values.env.defaultLanguage | quote }}
   LOCAL_DOMAIN: {{ .Values.web.ingress.host | quote }}
   # https://devcenter.heroku.com/articles/tuning-glibc-memory-behavior

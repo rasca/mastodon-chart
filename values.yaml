@@ -100,6 +100,11 @@ redis:
       memory: 256Mi
       cpu: 100m
 
+externalRedis:
+  url:
+  existingSecret: ""
+  existingSecretUrlKey: "redis-url"
+
 postgres:
   enabled: true
   image:
@@ -114,6 +119,15 @@ postgres:
     requests:
       memory: 256Mi
       cpu: 100m
+
+externalPostgresql:
+  host: host
+  port: 5432
+  database: database
+  user: user
+  password: ""
+  existingSecret: ""
+  existingSecretPasswordKey: "postgres-password"
 
 elasticsearch:
   enabled: true
