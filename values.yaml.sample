@@ -60,6 +60,7 @@ web:
     requests:
       memory: 256Mi
       cpu: 100m
+
 streaming:
   name: streaming
   image: tootsuite/mastodon
@@ -72,6 +73,7 @@ streaming:
     requests:
       memory: 256Mi
       cpu: 100m
+
 sidekiq:
   name: sidekiq
   image: tootsuite/mastodon
@@ -89,6 +91,7 @@ sidekiq:
     requests:
       memory: 256Mi
       cpu: 100m
+
 redis:
   name: redis
   image: redis
@@ -104,6 +107,12 @@ redis:
     requests:
       memory: 256Mi
       cpu: 100m
+
+externalRedis:
+  url:
+  existingSecret: ""
+  existingSecretUrlKey: "redis-url"
+
 postgres:
   name: postgres
   image: postgres
@@ -133,3 +142,12 @@ postgres:
       requests:
         memory: 256Mi
         cpu: 100m
+
+externalPostgresql:
+  host: host
+  port: 5432
+  database: database
+  user: user
+  password: ""
+  existingSecret: ""
+  existingSecretPasswordKey: "postgres-password"

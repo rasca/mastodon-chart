@@ -1,15 +1,15 @@
 dependencies:
 - name: postgres
   repository: https://groundhog2k.github.io/helm-charts/
-  version: 0.3.8
+  version: 0.4.0
 - name: redis
   repository: https://groundhog2k.github.io/helm-charts/
-  version: 0.4.11
+  version: 0.5.8
 - name: elasticsearch
   repository: https://helm.elastic.co
   version: 7.17.3
 - name: minio
   repository: https://charts.min.io/
-  version: 3.6.6
-digest: sha256:869e52d5deac7c27d87e4a22b85d727eb7603f7a29e2b837b923bc71b165a7d9
-generated: "2022-04-25T14:21:24.544138-07:00"
+  version: 5.0.0
+digest: sha256:11c6839e3103d50038ea0759d1b4fe7c1fb012405bff1008a2e99f9b136584e5
+generated: "2022-11-10T10:08:00.032638-03:00"
